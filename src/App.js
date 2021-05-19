@@ -14,7 +14,7 @@ import type { GraphQLSchema } from "graphql";
 
 function fetcher(params: Object): Object {
   return fetch(
-    "https://serve.onegraph.com/dynamic?app_id=c333eb5b-04b2-4709-9246-31e18db397e1",
+    "https://api.pomp.ist/v1/graphql",
     {
       method: "POST",
       headers: {
@@ -38,44 +38,23 @@ function fetcher(params: Object): Object {
 
 const DEFAULT_QUERY = `# shift-option/alt-click on a query below to jump to it in the explorer
 # option/alt-click on a field in the explorer to select all subfields
-query npmPackage {
-  npm {
-    package(name: "onegraph-apollo-client") {
-      name
-      homepage
-      downloads {
-        lastMonth {
-          count
-        }
-      }
+
+# {"token": 29597}
+query PriceHistory($token: bigint = "") {
+  hic_et_nunc_trade(where: {token_id: {_eq: $token}}, order_by: {swap: {price: desc}}) {
+    timestamp
+    seller {
+      address
+    }
+    buyer {
+      address
+    }
+    swap {
+      price
     }
   }
 }
-
-query graphQLPackage {
-  npm {
-    package(name: "graphql") {
-      name
-      homepage
-      downloads {
-        lastMonth {
-          count
-        }
-      }
-    }
-  }
-}
-
-fragment bundlephobiaInfo on BundlephobiaDependencyInfo {
-  name
-  size
-  version
-  history {
-    dependencyCount
-    size
-    gzip
-  }
-}`;
+`;
 
 type State = {
   schema: ?GraphQLSchema,
