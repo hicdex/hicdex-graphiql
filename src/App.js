@@ -14,7 +14,7 @@ import type { GraphQLSchema } from "graphql";
 
 function fetcher(params: Object): Object {
   return fetch(
-    "https://api.pomp.ist/v1/graphql",
+    "https://api.hicdex.com/v1/graphql",
     {
       method: "POST",
       headers: {
